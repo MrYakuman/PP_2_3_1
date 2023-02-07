@@ -24,12 +24,12 @@ import java.util.Properties;
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan(value = "java")
-public class dataBaseConfig {
+public class DataBaseConfig {
 
     private Environment env;
 
     @Autowired
-    public dataBaseConfig(Environment env) {
+    public DataBaseConfig(Environment env) {
         this.env = env;
     }
 

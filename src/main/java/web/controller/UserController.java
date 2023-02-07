@@ -4,29 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import web.DAO.UserDAOPackage.UserDAO;
-import web.DAO.UserDAOPackage.UserDAOImpl;
 import web.model.User;
+import web.service.UserService;
 
 @Controller
 @RequestMapping("/")
 public class UserController {
-    private final UserDAO userDAO;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserDAOImpl userDAO) {
-        this.userDAO = userDAO;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public String printUsers(Model model) {
-        model.addAttribute("users", userDAO.showUsers());
+        model.addAttribute("users", userService.showUsers());
         return "users";
     }
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
-        userDAO.save(user);
+        userService.save(user);
         return "redirect:/";
     }
     @GetMapping("/new")
@@ -36,25 +35,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String printUserById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userDAO.getUserById(id));
+        model.addAttribute("user", userService.getUserById(id));
         return "/userID";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
-        userDAO.update(user);
+        userService.update(user);
         return "redirect:/";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
-        userDAO.delete(id);
+        userService.delete(id);
         return "redirect:/";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userDAO.getUserById(id));
+        model.addAttribute("user", userService.getUserById(id));
         return "/edit";
     }
 
